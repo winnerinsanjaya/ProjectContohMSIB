@@ -10,9 +10,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float JumpPower;
 
+    [SerializeField]
+    private int totalJump;
+
     Rigidbody2D rb;
 
-    private bool isGrounded;
+    public bool isGrounded;
 
     private int airCount;
 
@@ -49,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         //double jump
-        if (Input.GetKeyDown(KeyCode.Space) && airCount <= 1)
+        if (Input.GetKeyDown(KeyCode.Space) && airCount < totalJump)
         {
             Vector2 direction = new Vector2(0, 1);
             rb.velocity = direction * JumpPower;
