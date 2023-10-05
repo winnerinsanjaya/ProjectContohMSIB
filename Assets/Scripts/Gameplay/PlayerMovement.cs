@@ -36,8 +36,19 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        Vector2 direction = new Vector2(Input.GetAxis("Horizontal"), 0);
+        float x = Input.GetAxis("Horizontal");
+        Vector2 direction = new Vector2(x, 0);
         transform.Translate(direction * Time.deltaTime * speed);
+
+        if(x < 0)
+        {
+            Facing(false);
+        }
+
+        if (x > 0)
+        {
+            Facing(true);
+        }
     }
 
     private void Jump()
@@ -76,6 +87,20 @@ public class PlayerMovement : MonoBehaviour
         {
             isGrounded = false;
             Debug.Log("isNotGrounded");
+        }
+    }
+
+    private void Facing(bool isFacingRight)
+    {
+        if(isFacingRight)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+            return;
+        }
+        if(!isFacingRight)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+            return;
         }
     }
 }
