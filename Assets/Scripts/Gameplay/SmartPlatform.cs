@@ -18,9 +18,10 @@ public class SmartPlatform : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
-        CheckPlayerPosition();
-        GoDown();
+
+        //CheckPlayerPosition();
+        CheckPlayerJumping();
+       // GoDown();
 
     }
 
@@ -45,6 +46,18 @@ public class SmartPlatform : MonoBehaviour
         {
             EnableCollider();
 
+        }
+    }
+
+    private void CheckPlayerJumping()
+    {
+        if(PlayerMovement.instance.isGrounded == false)
+        {
+            DisableCollider();
+        }
+        if(PlayerMovement.instance.isGrounded == true)
+        {
+            EnableCollider();
         }
     }
 

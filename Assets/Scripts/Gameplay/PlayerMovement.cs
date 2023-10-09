@@ -17,12 +17,18 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isGrounded;
 
-    private int airCount;
+    public int airCount;
 
     private Animator animator;
 
-    private bool isJump;
+    public bool isJump;
 
+    public static PlayerMovement instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -44,12 +50,12 @@ public class PlayerMovement : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         Vector2 direction = new Vector2(x, 0);
 
-        if(x != 0 && !isJump)
+        if(x != 0 && isGrounded)
         {
             SetAnimParam(true, false);
         }
 
-        if (x == 0 && !isJump)
+        if (x == 0 && isGrounded)
         {
             SetAnimParam(false, false);
             MoveBackground.instance.Move(0, false);
@@ -84,35 +90,11 @@ public class PlayerMovement : MonoBehaviour
         //double jump
         if (Input.GetKeyDown(KeyCode.Space) && airCount < totalJump)
         {
-            if (isJump)
-            {
-                SetAnimParam(false, true);
-            }
+            SetAnimParam(false, true);
             
             Vector2 direction = new Vector2(0, 1);
             rb.velocity = direction * JumpPower;
             airCount += 1;
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.tag == "Ground")
-        {
-            airCount = 0;
-            isGrounded = true;
-            Debug.Log("isGrounded");
-            isJump = false;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == "Ground")
-        {
-            isGrounded = false;
-            Debug.Log("isNotGrounded");
-            isJump = true;
         }
     }
 
