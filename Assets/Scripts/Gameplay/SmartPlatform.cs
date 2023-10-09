@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class SmartPlatform : MonoBehaviour
 {
-    private BoxCollider2D boxCollider2D;
     private PlayerMovement player;
+    private TilemapCollider2D tileCollider2D;
 
     // Start is called before the first frame update
     void Start()
     {
-        boxCollider2D = GetComponent<BoxCollider2D>();
+        tileCollider2D = GetComponent<TilemapCollider2D>();
         player = FindObjectOfType<PlayerMovement>();
     }
 
@@ -49,11 +50,11 @@ public class SmartPlatform : MonoBehaviour
 
     private void DisableCollider()
     {
-        boxCollider2D.enabled = false;
+        tileCollider2D.enabled = false;
     }
 
     private void EnableCollider()
     {
-        boxCollider2D.enabled = true;
+        tileCollider2D.enabled = true;
     }
 }

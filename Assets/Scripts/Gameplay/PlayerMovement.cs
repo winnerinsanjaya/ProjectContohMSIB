@@ -19,10 +19,15 @@ public class PlayerMovement : MonoBehaviour
 
     private int airCount;
 
+    private Animator animator;
+
+    private bool isJump;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -38,16 +43,30 @@ public class PlayerMovement : MonoBehaviour
     {
         float x = Input.GetAxis("Horizontal");
         Vector2 direction = new Vector2(x, 0);
+
+        if(x != 0 && !isJump)
+        {
+            SetAnimParam(true, false);
+        }
+
+        if (x == 0 && !isJump)
+        {
+            SetAnimParam(false, false);
+            MoveBackground.instance.Move(0, false);
+        }
         transform.Translate(direction * Time.deltaTime * speed);
 
-        if(x < 0)
+        
+
+        if (x < 0)
         {
             Facing(false);
-        }
+            MoveBackground.instance.Move(-1, true);        }
 
         if (x > 0)
         {
             Facing(true);
+            MoveBackground.instance.Move(1, true);
         }
     }
 
@@ -65,6 +84,11 @@ public class PlayerMovement : MonoBehaviour
         //double jump
         if (Input.GetKeyDown(KeyCode.Space) && airCount < totalJump)
         {
+            if (isJump)
+            {
+                SetAnimParam(false, true);
+            }
+            
             Vector2 direction = new Vector2(0, 1);
             rb.velocity = direction * JumpPower;
             airCount += 1;
@@ -78,6 +102,7 @@ public class PlayerMovement : MonoBehaviour
             airCount = 0;
             isGrounded = true;
             Debug.Log("isGrounded");
+            isJump = false;
         }
     }
 
@@ -87,6 +112,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isGrounded = false;
             Debug.Log("isNotGrounded");
+            isJump = true;
         }
     }
 
@@ -102,5 +128,12 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = new Vector3(-1, 1, 1);
             return;
         }
+    }
+
+
+    private void SetAnimParam(bool isRunning, bool isJumping)
+    {
+        animator.SetBool("isRunning", isRunning);
+        animator.SetBool("isJumping", isJumping);
     }
 }
