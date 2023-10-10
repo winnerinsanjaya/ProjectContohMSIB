@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,9 +10,23 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [SerializeField]
-    private Text coinText;
+    private TMP_Text coinText;
 
     private int coinAmount;
+
+
+    /*
+    [SerializeField]
+    private GameObject health1;
+    [SerializeField]
+    private GameObject health2;
+    [SerializeField]
+    private GameObject health3;
+    */
+
+   // [SerializeField]
+    public List<GameObject> healthObj;
+
 
     private void Start()
     {
@@ -64,6 +79,41 @@ public class GameManager : MonoBehaviour
         else
         {
             UpdateCoinText();
+        }
+    }
+
+    public void SetHealthObj(int health)
+    {
+        switch (health)
+        {
+            case 3:
+                print("Health = " +health);
+                healthObj[0].SetActive(true);
+                healthObj[1].SetActive(true);
+                healthObj[2].SetActive(true);
+                break;
+            case 2:
+                print("Health = " + health);
+                healthObj[0].SetActive(true);
+                healthObj[1].SetActive(true);
+                healthObj[2].SetActive(false);
+                break;
+            case 1:
+                print("Health = " + health);
+                healthObj[0].SetActive(true);
+                healthObj[1].SetActive(false);
+                healthObj[2].SetActive(false);
+                break;
+            case 0:
+                print("Player Die");
+                print("Health = " + health);
+                healthObj[0].SetActive(false);
+                healthObj[1].SetActive(false);
+                healthObj[2].SetActive(false);
+                break;
+            default:
+                print("Incorrect health level.");
+                break;
         }
     }
 }
