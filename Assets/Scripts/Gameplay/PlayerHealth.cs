@@ -24,7 +24,10 @@ public class PlayerHealth : MonoBehaviour
 
     private void UpdatePlayerHealth()
     {
-        float fillAmount = playerHealth / 3;
+
+        float health = playerHealth;
+        float dividedBy = 3.0f;
+        float fillAmount = health / dividedBy;
         healthBar.fillAmount = fillAmount;
         GameManager.instance.SetHealthObj(playerHealth);
 

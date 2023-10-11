@@ -25,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
 
     public static PlayerMovement instance;
 
+    private SpriteRenderer spriteRenderer;
+
     private void Awake()
     {
         instance = this;
@@ -34,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -58,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
         if (x == 0 && isGrounded)
         {
             SetAnimParam(false, false);
-            MoveBackground.instance.Move(0, false);
+          //  MoveBackground.instance.Move(0, false);
         }
         transform.Translate(direction * Time.deltaTime * speed);
 
@@ -102,12 +105,19 @@ public class PlayerMovement : MonoBehaviour
     {
         if(isFacingRight)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+           // transform.localScale = new Vector3(1, 1, 1);
+
+
+            //flipX sprite
+            spriteRenderer.flipX = false;
             return;
         }
         if(!isFacingRight)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            //transform.localScale = new Vector3(-1, 1, 1);
+
+            //flipX sprite
+            spriteRenderer.flipX = true;
             return;
         }
     }
