@@ -31,6 +31,7 @@ public class GroundDetect : MonoBehaviour
             playerMovement.isGrounded = true;
             Debug.Log("isGrounded");
             boxCollider.enabled = true;
+            
         }
     }
 

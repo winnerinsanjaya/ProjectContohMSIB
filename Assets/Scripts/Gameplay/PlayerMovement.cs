@@ -25,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
 
     public static PlayerMovement instance;
 
+    public bool facingRight;
+
     private void Awake()
     {
         instance = this;
@@ -52,12 +54,12 @@ public class PlayerMovement : MonoBehaviour
 
         if(x != 0 && isGrounded)
         {
-            SetAnimParam(true, false);
+            SetAnimParam(true, false, false);
         }
 
         if (x == 0 && isGrounded)
         {
-            SetAnimParam(false, false);
+            SetAnimParam(false, false, false);
             MoveBackground.instance.Move(0, false);
         }
         transform.Translate(direction * Time.deltaTime * speed);
@@ -90,8 +92,8 @@ public class PlayerMovement : MonoBehaviour
         //double jump
         if (Input.GetKeyDown(KeyCode.Space) && airCount < totalJump)
         {
-            SetAnimParam(false, true);
-            
+            SetAnimParam(false, true, false);
+
             Vector2 direction = new Vector2(0, 1);
             rb.velocity = direction * JumpPower;
             airCount += 1;
@@ -102,20 +104,29 @@ public class PlayerMovement : MonoBehaviour
     {
         if(isFacingRight)
         {
+            facingRight = true;
             transform.localScale = new Vector3(1, 1, 1);
             return;
         }
         if(!isFacingRight)
         {
+            facingRight = false;
             transform.localScale = new Vector3(-1, 1, 1);
             return;
         }
     }
 
 
-    private void SetAnimParam(bool isRunning, bool isJumping)
+    public void SetAnimParam(bool isRunning, bool isJumping, bool isTakeOff)
     {
+        Debug.Log(isRunning.ToString() + isJumping.ToString() + isTakeOff.ToString());
         animator.SetBool("isRunning", isRunning);
         animator.SetBool("isJumping", isJumping);
+
+        if (isTakeOff)
+        {
+            animator.SetTrigger("isTakeOff");
+        }
+        
     }
 }
