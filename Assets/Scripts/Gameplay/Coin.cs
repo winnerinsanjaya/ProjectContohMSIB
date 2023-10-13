@@ -26,7 +26,12 @@ public class Coin : MonoBehaviour
             //instance
             GameManager.instance.AddCoin(1);
             SetCoinState(0);
+            AudioPlayer.instance.PlaySFX(1);
+
+
+
             Destroy(gameObject);
+
         }
     }
 
@@ -60,5 +65,36 @@ public class Coin : MonoBehaviour
     {
         string scenename = SceneManager.GetActiveScene().name;
         PlayerPrefs.SetInt(scenename + coinID, state);
+
+
+        if(PlayerPrefs.HasKey(scenename + "coinAMT")){
+
+            int coinAmt = PlayerPrefs.GetInt(scenename + "coinAMT");
+
+            int finalAmt = coinAmt + 1;
+            PlayerPrefs.SetInt(scenename + "coinAMT", finalAmt);
+            SpawnFinal();
+            return;
+        }
+        
+        if(!PlayerPrefs.HasKey(scenename + "coinAMT")){
+
+            PlayerPrefs.SetInt(scenename + "coinAMT", 1);
+
+            SpawnFinal();
+            return;
+        }
+        
+    }
+
+    private void SpawnFinal()
+    {
+        string scenename = SceneManager.GetActiveScene().name;
+        int coinAmt = PlayerPrefs.GetInt(scenename + "coinAMT");
+        Debug.Log(coinAmt);
+        if(coinAmt >= 3)
+        {
+            GameManager.instance.SpawnFinish();
+        }
     }
 }

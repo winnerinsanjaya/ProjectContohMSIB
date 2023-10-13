@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -93,6 +94,7 @@ public class PlayerMovement : MonoBehaviour
         //double jump
         if (Input.GetKeyDown(KeyCode.Space) && airCount < totalJump)
         {
+            AudioPlayer.instance.PlaySFX(0);
             SetAnimParam(false, true);
             
             Vector2 direction = new Vector2(0, 1);
@@ -127,5 +129,14 @@ public class PlayerMovement : MonoBehaviour
     {
         animator.SetBool("isRunning", isRunning);
         animator.SetBool("isJumping", isJumping);
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "FallDetector")
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 }

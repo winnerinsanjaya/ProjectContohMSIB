@@ -17,9 +17,12 @@ public class EnemyDetector : MonoBehaviour
     {
         if (collision.tag == "EnemyPatrol")
         {
-
-            enemy.ChangeDir();
-            Debug.Log("Switch");
+            if(enemy != null)
+            {
+                enemy.ChangeDir();
+                Debug.Log("Switch");
+            }
+            
         }
     }
 }

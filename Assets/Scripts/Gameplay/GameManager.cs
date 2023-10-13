@@ -14,6 +14,12 @@ public class GameManager : MonoBehaviour
 
     private int coinAmount;
 
+    [SerializeField]
+    private GameObject finishObj;
+
+    [SerializeField]
+    private Transform finishPos;
+
 
     /*
     [SerializeField]
@@ -35,7 +41,7 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
 
-
+        AudioPlayer.instance.PlayBGM(1);
         CheckCoin();
     }
 
@@ -115,5 +121,10 @@ public class GameManager : MonoBehaviour
                 print("Incorrect health level.");
                 break;
         }
+    }
+
+    public void SpawnFinish() {
+
+        Instantiate(finishObj, finishPos.position, Quaternion.identity, finishPos);
     }
 }
