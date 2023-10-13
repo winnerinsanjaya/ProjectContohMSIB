@@ -17,8 +17,17 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private bool facingLeft;
 
+
+    [SerializeField]
+    private float countDown;
+    private float oRcountDown;
+
+
+    private bool isChanging;
     private void Start()
     {
+        countDown = 5f;
+        oRcountDown = countDown;
         direction = -1;
         facingLeft = true;
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -28,6 +37,24 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         Move();
+
+        countDown -= Time.deltaTime;
+
+        if (isChanging)
+        {
+            direction = 0;
+            
+        }
+        if(countDown <= 0 && isChanging)
+        {
+
+            countDown = oRcountDown;
+
+            isChanging = false;
+
+            CountdownDone();
+            return;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -42,7 +69,9 @@ public class Enemy : MonoBehaviour
 
     public void ChangeDir()
     {
-        StartCoroutine(ChangeDirectionCouroutine());
+
+        isChanging = true;
+        //StartCoroutine(ChangeDirectionCouroutine());
     }
     private void ChangeDirection()
     {
@@ -98,6 +127,11 @@ public class Enemy : MonoBehaviour
 
         //yield on a new YieldInstruction that waits for 5 seconds.
         yield return new WaitForSeconds(3);
+       
+    }
+
+    private void CountdownDone()
+    {
         if (facingLeft)
         {
             direction = -1;
@@ -113,5 +147,5 @@ public class Enemy : MonoBehaviour
     }
 
 
-
+     
 }

@@ -100,4 +100,15 @@ public class AudioPlayer : MonoBehaviour
             PlayerPrefs.SetFloat("sfxVol", sfxAudioSource.volume);
         }
     }
+
+    public void AudioValueSave()
+    {
+        float bgm = PlayerPrefs.GetFloat("bgmVol");
+        float sfx = PlayerPrefs.GetFloat("sfxVol");
+
+        PlayerPrefs.DeleteAll();
+
+        PlayerPrefs.SetFloat("bgmVol", bgm);
+        PlayerPrefs.SetFloat("sfxVol", sfx);
+    }
 }

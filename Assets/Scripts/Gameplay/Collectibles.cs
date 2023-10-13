@@ -9,9 +9,19 @@ public class Collectibles : MonoBehaviour
 
     private bool pickable;
 
+    private string scenename;
 
-    private void Start()
+    private string prefsName;
+
+
+    public int itemID;
+
+
+    public void ItemSet()
     {
+        scenename = SceneManager.GetActiveScene().name;
+
+        prefsName = scenename + itemID;
         CheckFinishID();
 
     }
@@ -40,7 +50,7 @@ public class Collectibles : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 Debug.Log("Item Picked");
-                SetFinish(0);
+                //SetFinish(0);
                 SetPlayerPrefData();
                 Destroy(this.gameObject);
             }
@@ -49,33 +59,30 @@ public class Collectibles : MonoBehaviour
 
     private void SetFinish(int state)
     {
-        string scenename = SceneManager.GetActiveScene().name;
-        PlayerPrefs.SetInt(scenename + "finish", state);
-
-
+        PlayerPrefs.SetInt(prefsName, state);
+        CheckFinishScene();
     }
 
     private void CheckFinishID()
     {
-        string scenename = SceneManager.GetActiveScene().name;
-
-        if (PlayerPrefs.HasKey(scenename + "finish"))
+        if (PlayerPrefs.HasKey(prefsName))
         {
-            int coinState = PlayerPrefs.GetInt(scenename + "finish");
+            int itemState = PlayerPrefs.GetInt(prefsName);
 
-            if (coinState == 0)
+            if (itemState == 0)
             {
+                CheckFinishScene();
                 Destroy(this.gameObject);
                 return;
             }
-            if (coinState == 1)
+            if (itemState == 1)
             {
                 //do nothing
                 return;
             }
         }
 
-        if (!PlayerPrefs.HasKey(scenename + "finish"))
+        if (!PlayerPrefs.HasKey(prefsName))
         {
             SetFinish(1);
         }
@@ -84,31 +91,16 @@ public class Collectibles : MonoBehaviour
 
     private void SetPlayerPrefData()
     {
-        if (PlayerPrefs.HasKey("finish"))
-        {
-            int amt = PlayerPrefs.GetInt("finish");
-
-            int total = amt + 1;
-            PlayerPrefs.SetInt("finish", total);
-            CheckGameEnd();
-            return;
-        }
-
-        if (!PlayerPrefs.HasKey("finish"))
-        {
-            PlayerPrefs.SetInt("finish", 1);
-            return;
-        }
+        SetFinish(0);
     }
 
 
-    private void CheckGameEnd()
+    private void CheckFinishScene()
     {
-        int amt = PlayerPrefs.GetInt("finish");
-        if(amt >= 3)
+        int itemState = PlayerPrefs.GetInt(prefsName);
+        if (itemState == 0)
         {
-            SceneManager.LoadScene("MainMenu");
+            GameManager.instance.CheckWinCondition();
         }
     }
-
 }

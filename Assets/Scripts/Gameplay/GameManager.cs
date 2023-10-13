@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
+using UnityEditor.PackageManager.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,6 +22,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Transform finishPos;
 
+    public int SceneCoinAmount;
+
+    [SerializeField]
+    private int SceneID;
+
 
     /*
     [SerializeField]
@@ -33,13 +40,16 @@ public class GameManager : MonoBehaviour
    // [SerializeField]
     public List<GameObject> healthObj;
 
-
-    private void Start()
+    private void Awake()
     {
         if (instance == null)
         {
             instance = this;
         }
+    }
+    private void Start()
+    {
+       
 
         AudioPlayer.instance.PlayBGM(1);
         CheckCoin();
@@ -125,6 +135,44 @@ public class GameManager : MonoBehaviour
 
     public void SpawnFinish() {
 
-        Instantiate(finishObj, finishPos.position, Quaternion.identity, finishPos);
+        GameObject obj = Instantiate(finishObj, finishPos.position, Quaternion.identity, finishPos);
+        Collectibles collectibles = obj.GetComponent<Collectibles>();
+        collectibles.ItemSet();
+        //CheckWinCondition();
     }
+    
+
+    public void CheckWinCondition()
+    {
+        if (PlayerPrefs.HasKey("WinCondition"))
+        {
+            int winCon = PlayerPrefs.GetInt("WinCondition");
+            int winAmt = winCon + 1;
+            PlayerPrefs.SetInt("WinCondition", winAmt);
+
+            Debug.Log("Current Win" + winAmt);
+
+            if (winAmt >= 3)
+            {
+                GameWin();
+            }
+            
+            return;
+        }
+
+        if (!PlayerPrefs.HasKey("WinCondition"))
+        {
+            Debug.Log("Current Win" + 1);
+            PlayerPrefs.SetInt("WinCondition", 1);
+            return;
+        }
+    }
+
+    private void GameWin()
+    {
+        AudioPlayer.instance.AudioValueSave();
+
+        SceneManager.LoadScene("MainMenu");
+    }
+
 }

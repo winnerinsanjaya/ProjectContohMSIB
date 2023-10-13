@@ -216,7 +216,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8248878653080572905, guid: 864da5a731e27764eb176dc9bb5bfa59, type: 3}
       propertyPath: targetScene
-      value: Level3
+      value: Level1
       objectReference: {fileID: 0}
     - target: {fileID: 8738256271234807860, guid: 864da5a731e27764eb176dc9bb5bfa59, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2157,7 +2157,7 @@ MonoBehaviour:
   finishObj: {fileID: 1550157521266433993, guid: 4d743641b55377f4db875a024da91bb1, type: 3}
   finishPos: {fileID: 523975668}
   SceneCoinAmount: 0
-  SceneID: 1
+  SceneID: 3
   healthObj:
   - {fileID: 124045833}
   - {fileID: 295483974}
@@ -2652,7 +2652,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -100}
+  m_AnchoredPosition: {x: 0, y: -207}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2189490410228944758
@@ -2864,6 +2864,10 @@ PrefabInstance:
     - target: {fileID: 8074357137151954346, guid: 864da5a731e27764eb176dc9bb5bfa59, type: 3}
       propertyPath: m_Color.a
       value: 0.11372549
+      objectReference: {fileID: 0}
+    - target: {fileID: 8248878653080572905, guid: 864da5a731e27764eb176dc9bb5bfa59, type: 3}
+      propertyPath: targetScene
+      value: Level1
       objectReference: {fileID: 0}
     - target: {fileID: 8738256271234807860, guid: 864da5a731e27764eb176dc9bb5bfa59, type: 3}
       propertyPath: m_LocalPosition.x

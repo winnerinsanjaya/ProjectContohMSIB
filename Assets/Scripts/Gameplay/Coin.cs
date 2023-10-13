@@ -10,8 +10,16 @@ public class Coin : MonoBehaviour
     [SerializeField]
     private int coinID;
 
+
+    private string scenename;
+
+    private string prefsName;
+
     private void Start()
     {
+        scenename = SceneManager.GetActiveScene().name;
+
+        prefsName = scenename + coinID;
         // gameManager = FindObjectOfType<GameManager>();
         CheckCoinID();
     }
@@ -37,25 +45,26 @@ public class Coin : MonoBehaviour
 
     private void CheckCoinID()
     {
-        string scenename = SceneManager.GetActiveScene().name;
 
-        if (PlayerPrefs.HasKey(scenename + coinID))
+        if (PlayerPrefs.HasKey(prefsName))
         {
-            int coinState = PlayerPrefs.GetInt(scenename + coinID);
+            int coinState = PlayerPrefs.GetInt(prefsName);
 
             if(coinState == 0)
             {
+                CheckCoinScene(0);
                 Destroy(this.gameObject);
                 return;
             }
             if(coinState == 1)
             {
+
                 //do nothing
                 return;
             }
         }
         
-        if (!PlayerPrefs.HasKey(scenename + coinID))
+        if (!PlayerPrefs.HasKey(prefsName))
         {
             SetCoinState(1);
         }
@@ -63,38 +72,28 @@ public class Coin : MonoBehaviour
 
     private void SetCoinState(int state)
     {
-        string scenename = SceneManager.GetActiveScene().name;
-        PlayerPrefs.SetInt(scenename + coinID, state);
-
-
-        if(PlayerPrefs.HasKey(scenename + "coinAMT")){
-
-            int coinAmt = PlayerPrefs.GetInt(scenename + "coinAMT");
-
-            int finalAmt = coinAmt + 1;
-            PlayerPrefs.SetInt(scenename + "coinAMT", finalAmt);
-            SpawnFinal();
-            return;
-        }
         
-        if(!PlayerPrefs.HasKey(scenename + "coinAMT")){
-
-            PlayerPrefs.SetInt(scenename + "coinAMT", 1);
-
-            SpawnFinal();
-            return;
-        }
-        
+        PlayerPrefs.SetInt(prefsName, state);
+        CheckCoinScene(state);
     }
 
     private void SpawnFinal()
     {
-        string scenename = SceneManager.GetActiveScene().name;
-        int coinAmt = PlayerPrefs.GetInt(scenename + "coinAMT");
-        Debug.Log(coinAmt);
-        if(coinAmt >= 3)
+        GameManager.instance.SpawnFinish();
+    }
+
+    private void CheckCoinScene(int state)
+    {
+        if(state == 0)
         {
-            GameManager.instance.SpawnFinish();
+            GameManager.instance.SceneCoinAmount += 1;
+        }
+        
+        int coinAmt = GameManager.instance.SceneCoinAmount;
+        Debug.Log("Get  Scene Coin" + coinAmt);
+        if (coinAmt >= 3)
+        {
+            SpawnFinal();
         }
     }
 }

@@ -30,7 +30,7 @@ public class GroundDetect : MonoBehaviour
             playerMovement.airCount = 0;
             playerMovement.isGrounded = true;
             Debug.Log("isGrounded");
-            boxCollider.enabled = true;
+           // boxCollider.enabled = true;
         }
     }
 
@@ -40,7 +40,7 @@ public class GroundDetect : MonoBehaviour
         {
             playerMovement.isGrounded = false;
             Debug.Log("isNotGrounded");
-            boxCollider.enabled = false;
+            //boxCollider.enabled = false;
         }
     }
 
